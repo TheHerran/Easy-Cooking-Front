@@ -9,20 +9,20 @@ import RecipePage from "../pages/recipePage";
 import { AnimatePresence } from "framer-motion";
 
 export default function RoutesApp() {
-  return (
-    <AnimatePresence>
-      <Routes>
-        <Route path="/" element={<Header />}>
-          <Route path="/" element={<Home />} />
-          <Route path="/landing" element={<LandingPage />} />
-          <Route path="/dashboard" element={<DashBoard />} />
-        </Route>
-        <Route path="/login" element={<LoginPage />} />
-        <Route path="/cadastro" element={<RegisterPage />} />
-        <Route path="/" element={<Home />} />
-        <Route path="/dashboard" element={<DashBoard />} />
-        <Route path = "/receita/:recipeName" element={<RecipePage/>}/>
-      </Routes>
-    </AnimatePresence>
-  );
+    return (
+        <AnimatePresence>
+            <Routes>
+                <Route path="/" element={<Header />}>
+                    <Route path="/" element={<Home />} />
+                    <Route path="/landing" element={<LandingPage />} />
+                    <Route path="/dashboard" element={<DashBoard />} />
+                </Route>
+                <Route path="/login" element={<LoginPage />} />
+                <Route path="/cadastro" element={<RegisterPage />} />
+                <Route path="/" element={<Home />} />
+                <Route path="/dashboard" element={<DashBoard />} />
+                <Route path="/receita/:recipeId" element={<RecipePage />} />
+            </Routes>
+        </AnimatePresence>
+    );
 }
