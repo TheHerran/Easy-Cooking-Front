@@ -66,7 +66,7 @@ export const AutoStyled = styled(Autocomplete)`
   }
 `;
 
-export const SelectStyled = styled.select`
+export const SelectStyled = styled.textarea`
   background-color: ${(props) => props.theme.colorHeader};
   border: none;
   border-radius: 35px;

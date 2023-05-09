@@ -4,50 +4,50 @@ import { useContext } from "react";
 import { UserContext } from "../../../Providers/models/user/user";
 
 export const UserModal = ({ state, setState }) => {
-  const navigate = useNavigate();
-  const { user, setIsOpen } = useContext(UserContext);
-  const { logoutUser } = useContext(UserContext);
+    const navigate = useNavigate();
+    const { user, setIsOpen } = useContext(UserContext);
+    const { logoutUser } = useContext(UserContext);
 
-  function handleClick() {
-    user ? navigate("/dashboard") : navigate("/login");
-  }
+    function handleClick() {
+        user ? navigate("/dashboard") : navigate("/login");
+    }
 
-  return (
-    <UserModalContainer onMouseLeave={() => setIsOpen(false)}>
-      {state ? (
-        <div className="UserModal">
-          <div className="UserModalContent">
-            <button
-              onClick={() => {
-                navigate("/");
-                setIsOpen(false);
-              }}
-            >
-              Home
-            </button>
+    return (
+        <UserModalContainer onMouseLeave={() => setIsOpen(false)}>
+            {state ? (
+                <div className="UserModal">
+                    <div className="UserModalContent">
+                        <button
+                            onClick={() => {
+                                navigate("/");
+                                setIsOpen(false);
+                            }}
+                        >
+                            Home
+                        </button>
 
-            <button
-              onClick={() => {
-                handleClick();
-                setIsOpen(false);
-              }}
-            >
-              Dashboard
-            </button>
+                        <button
+                            onClick={() => {
+                                handleClick();
+                                setIsOpen(false);
+                            }}
+                        >
+                            Dashboard
+                        </button>
 
-            <button
-              onClick={() => {
-                logoutUser(navigate);
-                setIsOpen(false);
-              }}
-            >
-              Logout
-            </button>
-          </div>
-        </div>
-      ) : (
-        <div></div>
-      )}
-    </UserModalContainer>
-  );
+                        <button
+                            onClick={() => {
+                                logoutUser(navigate);
+                                setIsOpen(false);
+                            }}
+                        >
+                            Logout
+                        </button>
+                    </div>
+                </div>
+            ) : (
+                <div></div>
+            )}
+        </UserModalContainer>
+    );
 };

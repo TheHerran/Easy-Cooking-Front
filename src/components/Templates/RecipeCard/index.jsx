@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { Rating } from "@mui/material";
 import { useEffect, useState } from "react";
 
-import { Api } from "../../../services/api.js";
+import { Api, BearerToken } from "../../../services/api.js";
 
 function RecipeCard({ recipe, del, setMyRecipes, myRecipes }) {
   const navigate = useNavigate();
@@ -11,8 +11,8 @@ function RecipeCard({ recipe, del, setMyRecipes, myRecipes }) {
   const [dataUser, setDataUser] = useState(null);
 
   useEffect(() => {
-    const value = recipe.reviews?.reduce((prev, acc) => prev + acc.rating, 0);
-    const result = value / recipe.reviews.length;
+    const value = recipe.rating?.reduce((prev, acc) => prev + acc.rating, 0);
+    const result = value / recipe.rating.length;
     setRating(result);
   }, []);
 
@@ -21,15 +21,13 @@ function RecipeCard({ recipe, del, setMyRecipes, myRecipes }) {
   };
 
   const handleDelete = () => {
-    const token = localStorage.getItem("@Easy:Token");
-    Api.delete(`/recipes/${recipe.id}`, {
+    Api.delete(`/recipe/${recipe.id}/`, {
       headers: {
-        Authorization: `Bearer ${token}`,
+        Authorization: BearerToken,
       },
     })
       .then((res) => {
         const newList = myRecipes.filter((e) => e !== recipe);
-        console.log(res);
         setMyRecipes(newList);
       })
       .catch((err) => console.log(err));
@@ -47,10 +45,10 @@ function RecipeCard({ recipe, del, setMyRecipes, myRecipes }) {
           }}
           className="imgFig"
         >
-          <img src={recipe.image} alt="" />
+          <img src={recipe.img} alt="" />
         </figure>
 
-        <p className="RecipeName">{recipe.name}</p>
+        <p className="RecipeName">{recipe.title}</p>
 
         {del && (
           <span className="delBtn" onClick={() => handleDelete()}>
