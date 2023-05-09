@@ -13,24 +13,24 @@ import { Api } from "../../../services/api";
 
 export const Header = () => {
 
-  const { currentTheme, themeSwitch, getOpositeTheme } =
-    useContext(GlobalThemeContext);
-  const { isOpen, setIsOpen } = useContext(UserContext);
-  const navigate = useNavigate();
-  const handleNavigate = () => navigate("/");
-  const [user, setUser] = useState(null);
+    const { currentTheme, themeSwitch, getOpositeTheme } =
+        useContext(GlobalThemeContext);
+    const { isOpen, setIsOpen } = useContext(UserContext);
+    const navigate = useNavigate();
+    const handleNavigate = () => navigate("/");
+    const [user, setUser] = useState(null);
 
-  useEffect(() => {
-    const id = localStorage.getItem("@Easy:Id");
-    const token = localStorage.getItem("@Easy:Token");
-    Api.get(`/users/${id}`, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    })
-      .then((response) => setUser(response.data))
-      .catch((err) => console.log(err));
-  }, []);
+    useEffect(() => {
+        const id = localStorage.getItem("@Easy:Id");
+        const token = localStorage.getItem("@Easy:Token");
+        Api.get(`/users/${id}`, {
+            headers: {
+                Authorization: `Bearer ${token}`,
+            },
+        })
+            .then((response) => setUser(response.data))
+            .catch((err) => console.log(err));
+    }, []);
 
     return (
         <>
@@ -58,19 +58,19 @@ export const Header = () => {
                 )}
 
                 <UserModal state={isOpen} setState={setIsOpen} />
-                    <FormControlLabel
-                        sx={ObjFormControl}
-                        value="end"
-                        control={
-                            <Switch
-                                sx={ObjSwitch}
-                                checked={themeSwitch}
-                                onChange={() => getOpositeTheme()}
-                            />
-                        }
-                        label="Tema"
-                        labelPlacement="start"
-                    />
+                <FormControlLabel
+                    sx={ObjFormControl}
+                    value="end"
+                    control={
+                        <Switch
+                            sx={ObjSwitch}
+                            checked={themeSwitch}
+                            onChange={() => getOpositeTheme()}
+                        />
+                    }
+                    label="Tema"
+                    labelPlacement="start"
+                />
             </HeaderContainer>
             <Outlet />
         </>
