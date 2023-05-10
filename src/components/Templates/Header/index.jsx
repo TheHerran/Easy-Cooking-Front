@@ -9,7 +9,7 @@ import { ObjFormControl, ObjSwitch } from "../../../pages/login/style";
 import { GlobalThemeContext } from "../../../Providers/models/theme/theme";
 import { UserContext } from "../../../Providers/models/user/user";
 import { useState } from "react";
-import { Api } from "../../../services/api";
+import { Api, BearerToken } from "../../../services/api";
 
 export const Header = () => {
 
@@ -21,11 +21,11 @@ export const Header = () => {
     const [user, setUser] = useState(null);
 
     useEffect(() => {
-        const id = localStorage.getItem("@Easy:Id");
-        const token = localStorage.getItem("@Easy:Token");
-        Api.get(`/users/${id}`, {
+        const username = sessionStorage.getItem("@Easy:Username");
+
+        Api.get(`/profile/${username}/`, {
             headers: {
-                Authorization: `Bearer ${token}`,
+                Authorization: BearerToken,
             },
         })
             .then((response) => setUser(response.data))
