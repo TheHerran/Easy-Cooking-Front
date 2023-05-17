@@ -10,11 +10,12 @@ const lightTheme = {
     catTwo: "#ffc60a",
     catTree: "#f68f11",
     catFour: "#F64F11",
-    inputColor: "#E2E2E2", 
+    inputColor: "#E2E2E2",
     colorIcon: "#252525",
     rating: "#f68f11",
     title: "#ea1d2cff",
-
+    ingItem: "#b1b1b1",
+    error: "#ea1d2cff",
 
     button: {
         textColor: "#ffffff",
@@ -32,21 +33,22 @@ const darkTheme = {
     catTwo: "#ffc60a",
     catTree: "#f68f11",
     catFour: "#F64F11",
-    inputColor:"#333333",
+    inputColor: "#333333",
     colorIcon: "#E2E2E2",
     rating: "#ffc60a",
     title: "#cd131fff",
+    ingItem: "#b1b1b160",
+    error: "#ea1d2cff",
 
-    
     button: {
-      textColor: "#ffffff",
-      backgroundColor: "#800000",
+        textColor: "#ffffff",
+        backgroundColor: "#800000",
     },
 };
 
 export const themes = {
-  light: lightTheme,
-  dark: darkTheme,
+    light: lightTheme,
+    dark: darkTheme,
 };
 
 export const GlobalStyle = createGlobalStyle`

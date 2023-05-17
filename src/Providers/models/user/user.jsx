@@ -15,13 +15,13 @@ export function UserProvider({ children }) {
     const [username, setUsername] = useState(sessionStorage.getItem("@Easy:Username"));
     
     useEffect(() => {
-        if (!token) {
+        if (token) {
             Api.get(`/profile/${username}/`, {
                 headers: {
                     Authorization: BearerToken,
                 },
             })
-                .then((res) => {setUser(res.data); console.log(res.data);})
+                .then((res) => setUser(res.data))
                 .catch((err) => console.log(err));
         }
     }, []);
@@ -78,6 +78,8 @@ export function UserProvider({ children }) {
             .then((response) => {
                 setUser(response.data.access);
                 setLogin(true);
+                setVerify(true);
+                setToken(response.data.access);
                 
                 sessionStorage.setItem("@Easy:Token", response.data.access);
 
@@ -94,7 +96,7 @@ export function UserProvider({ children }) {
         sessionStorage.removeItem("@Easy:Token")
         sessionStorage.removeItem("@Easy:Username")
         setUser(null);
-        // setToken(null);
+        setToken(null);
         callback("/login");
     }
 
