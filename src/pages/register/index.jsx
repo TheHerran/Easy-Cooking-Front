@@ -6,8 +6,7 @@ import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useContext, useState } from "react";
 import { UserContext } from "../../Providers/models/user/user";
-import { GiCook } from "react-icons/gi";
-import { GiKnifeFork } from "react-icons/gi";
+import { GiCook, GiKnifeFork } from "react-icons/gi";
 import { TbCookieOff } from "react-icons/tb";
 import { TbCookie } from "react-icons/tb";
 import { HiOutlineMail } from "react-icons/hi";
@@ -20,7 +19,7 @@ import { ObjFormControl, ObjSwitch } from "../login/style";
 import { motion } from "framer-motion";
 
 export default function RegisterPage() {
-	const { createUser, verify } = useContext(UserContext);
+	const { createUser } = useContext(UserContext);
 	const { currentTheme, themeSwitch, getOpositeTheme } =
 		useContext(GlobalThemeContext);
 

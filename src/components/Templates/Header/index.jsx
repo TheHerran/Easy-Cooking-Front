@@ -2,35 +2,21 @@ import { HeaderContainer } from "./style";
 import LogoWhite from "../../../assets/logoWhite-V2.svg";
 import LogoBlack from "../../../assets/logoBlack-V2.svg";
 import { UserModal } from "../../Templates/UserModal";
-import { useContext, useEffect } from "react";
+import { useContext } from "react";
 import { Outlet, useNavigate } from "react-router-dom";
 import { FormControlLabel, Switch } from "@mui/material";
 import { ObjFormControl, ObjSwitch } from "../../../pages/login/style";
 import { GlobalThemeContext } from "../../../Providers/models/theme/theme";
 import { UserContext } from "../../../Providers/models/user/user";
-import { useState } from "react";
-import { Api, BearerToken } from "../../../services/api";
 
 export const Header = () => {
 
     const { currentTheme, themeSwitch, getOpositeTheme } =
         useContext(GlobalThemeContext);
-    const { isOpen, setIsOpen } = useContext(UserContext);
+    const { isOpen, setIsOpen, user } = useContext(UserContext);
     const navigate = useNavigate();
     const handleNavigate = () => navigate("/");
-    const [user, setUser] = useState(null);
 
-    useEffect(() => {
-        const username = sessionStorage.getItem("@Easy:Username");
-
-        Api.get(`/profile/${username}/`, {
-            headers: {
-                Authorization: BearerToken,
-            },
-        })
-            .then((response) => setUser(response.data))
-            .catch((err) => console.log(err));
-    }, []);
 
     return (
         <>

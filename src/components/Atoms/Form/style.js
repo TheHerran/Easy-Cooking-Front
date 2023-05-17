@@ -10,16 +10,12 @@ export const StyledForm = styled.form`
     align-items: center;
     gap: 3vh;
 
-
     padding: 10px;
 
     width: 25vw;
     min-height: 40vh;
     
     border: none;
-
-    
-
 
     span {
         font-size: 0.9rem;
@@ -36,8 +32,6 @@ export const StyledForm = styled.form`
         width: 90%;
 
     }
-
-
 
     input{
         

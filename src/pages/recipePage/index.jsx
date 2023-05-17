@@ -1,22 +1,17 @@
-/* eslint-disable eqeqeq */
 import { useContext } from "react";
 import { useState } from "react";
 import { useParams } from "react-router-dom";
 import { Header } from "../../components/Templates/Header";
 import { RecipesContext } from "../../Providers/models/recipes/recipes";
 import {
-    ContentPage,
-    NameRecipe,
-    Preparation,
-    RatingStyle,
-    StyleContainer,
+    ContentPage, NameRecipe, Preparation, RatingStyle, StyleContainer,
 } from "./style";
 import { AiOutlineArrowLeft } from "react-icons/ai";
 import { BsFillSaveFill } from "react-icons/bs";
 import { Rating } from "@mui/material";
 import { UserContext } from "../../Providers/models/user/user";
 import { useEffect } from "react";
-import { Api, BearerToken } from "../../services/api";
+import { Api } from "../../services/api";
 import { toast } from "react-toastify";
 import { motion } from "framer-motion";
 
@@ -24,14 +19,12 @@ function RecipePage() {
     const { recipeId } = useParams();
     const { ratingMax } = useContext(RecipesContext);
 
-    const { saveRecipe } = useContext(UserContext);
+    const { saveRecipe, user } = useContext(UserContext);
 
     const [rating, setRating] = useState(0);
     const [onlyRecipe, setonlyRecipe] = useState(null);
-    const [user, setUser] = useState(null);
 
     useEffect(() => {
-
         Api.get(`/recipe/${recipeId}/`)
             .then((res) => {
                 setonlyRecipe(res.data);
@@ -41,24 +34,13 @@ function RecipePage() {
 
     useEffect(() => {
         const value = onlyRecipe?.rating?.reduce(
-            (prev, acc) => prev + acc.rating,
-            0
+            (prev, acc) => prev + acc.rating, 0
         );
+
         const result = value / onlyRecipe?.rating.length;
         setRating(result)
     }, [onlyRecipe])
 
-    useEffect(() => {
-        const username = sessionStorage.getItem("@Easy:Username");
-        Api.get(`/profile/${username}/`, {
-            headers: {
-                Authorization: BearerToken,
-            },
-        })
-            .then((res) => setUser(res.data))
-            .catch((err) => console.log(err));
-
-    }, []);
 
     const handleBack = () => {
         window.history.back();
@@ -95,12 +77,9 @@ function RecipePage() {
                         <h1>{onlyRecipe?.title}</h1>
                         {user ? (
                             <RatingStyle>
-                                <Rating
-                                    value={rating}
-                                    onChange={(event, newValue) => {
-                                        handleRating(newValue);
-                                    }}
-                                />
+                                <Rating value={rating} onChange={(event, newValue) => {
+                                    handleRating(newValue);
+                                }} />
                             </RatingStyle>
                         ) : (
                             <RatingStyle>
@@ -110,18 +89,14 @@ function RecipePage() {
                     </div>
 
                     <div className="divBtn">
-                        <button
-                            onClick={() => {
-                                handleBack();
-                            }}
-                        >
+                        <button onClick={() => {
+                            handleBack();
+                        }}>
                             <AiOutlineArrowLeft /> Voltar
                         </button>
-                        <button
-                            onClick={() => {
-                                handleSave();
-                            }}
-                        >
+                        <button onClick={() => {
+                            handleSave();
+                        }}>
                             Salvar <BsFillSaveFill />
                         </button>
                     </div>
@@ -130,17 +105,11 @@ function RecipePage() {
                     <ContentPage>
                         <div className="divIngredients">
                             <h2>Ingredientes</h2>
-                            <p>
-                                {onlyRecipe?.ingredients}
-                            </p>
-
-                            {/* <ul>
+                            <ul>
                                 {onlyRecipe?.ingredients.map((ingredient, index) => (
-                                    <li key={index}>
-                                        {ingredient.name} - {ingredient.quantity} {ingredient.unit}
-                                    </li>
+                                    <li key={index}> {ingredient.item} </li>
                                 ))}
-                            </ul> */}
+                            </ul>
                         </div>
 
                         <div className="divImage">
