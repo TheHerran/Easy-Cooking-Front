@@ -1,10 +1,10 @@
-import { Container } from "./style.js";
+import { Container } from "./style";
 import { UserRecipes } from "../../components/Templates/UserRecipes";
 import { useEffect, useState } from "react";
-import { AddRecipeModal } from "../../components/Templates/AddRecipeModal/index.jsx";
+import { AddRecipeModal } from "../../components/Templates/AddRecipeModal/index";
 import { UserSavedRecipes } from "../../components/Templates/UserSavedRecipes";
-import { Api, BearerToken } from "../../services/api.js";
-import RecipeCard from "../../components/Templates/RecipeCard/index.jsx";
+import { Api, BearerToken } from "../../services/api";
+import RecipeCard from "../../components/Templates/RecipeCard/index";
 import { motion } from "framer-motion";
 
 function DashBoard() {
@@ -20,7 +20,7 @@ function DashBoard() {
         Api.get(`/user/${username}/recipes/`)
             .then((res) => setMyRecipes(res.data)) 
             .catch((err) => console.log(err));
-    }, []);
+    }, [open]);
 
     const clickOnCard = (e) => setOpen(true);
 
@@ -46,18 +46,14 @@ function DashBoard() {
                 <Container>
                     <div className="buttonsDiv">
                         <button
-                            onClick={() => {
-                                setOnSaved(!onSaved);
-                            }}
+                            onClick={() => setOnSaved(!onSaved)}
                             className="button"
                         >
                             Minhas Receitas
                         </button>
 
                         <button
-                            onClick={() => {
-                                handleSaved();
-                            }}
+                            onClick={() => handleSaved()}
                             className="button"
                         >
                             Receitas Salvas
