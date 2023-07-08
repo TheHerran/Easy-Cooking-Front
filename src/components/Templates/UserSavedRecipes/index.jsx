@@ -6,16 +6,16 @@ import { useContext } from "react";
 import { UserContext } from "../../../Providers/models/user/user";
 
 export const UserSavedRecipes = () => {
-  const { user } = useContext(UserContext);
+  // const { user, setUser } = useContext(UserContext);
 
-  // const [user, setUser] = useState(null);
+  const [user, setUser] = useState(null);
 
-  // useEffect(() => {
-  //   const id = localStorage.getItem("@Easy:Id");
-  //   Api.get(`/users/${id}`)
-  //     .then((response) => setUser(response.data))
-  //     .catch((err) => console.log(err));
-  // }, []);
+  useEffect(() => {
+    const username = sessionStorage.getItem("@Easy:Username");
+    Api.get(`/profile/${username}/`)
+      .then((response) => setUser(response.data))
+      .catch((err) => console.log(err));
+  }, []);
 
   const  favorites  = user.favorites;
 

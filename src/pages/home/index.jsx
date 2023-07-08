@@ -1,8 +1,8 @@
-import { FilterBar } from "../../components/Templates/FilterBar/index.jsx";
-import RecipeCard from "../../components/Templates/RecipeCard/index.jsx";
-import { Recipes, Container } from "./style.js";
+import { FilterBar } from "../../components/Templates/FilterBar/index";
+import RecipeCard from "../../components/Templates/RecipeCard/index";
+import { Recipes, Container } from "./style";
 import { useContext } from "react";
-import { RecipesContext } from "../../Providers/models/recipes/recipes.jsx";
+import { RecipesContext } from "../../Providers/models/recipes/recipes";
 import { motion } from "framer-motion";
 
 function Home() {

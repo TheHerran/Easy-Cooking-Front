@@ -1,13 +1,10 @@
-import { useContext } from 'react';
-import { UserContext } from '../../../Providers/models/user/user';
-import {DashBoardRecipesContainer, PlusAdd} from './style';
+import { DashBoardRecipesContainer, PlusAdd } from './style';
 
-export const UserRecipes =  ({onClick}) => {
-  // const { verify } = useContext(UserContext)
+export const UserRecipes = ({ onClick }) => {
     return (
         <DashBoardRecipesContainer onClick={onClick}>
-            <PlusAdd/>
+            <PlusAdd />
         </DashBoardRecipesContainer>
     )
-  }
-  
+}
+
