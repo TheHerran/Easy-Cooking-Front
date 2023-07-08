@@ -1,7 +1,6 @@
-import { useContext } from "react";
-import { useState } from "react";
+import { useContext, useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
-import { Header } from "../../components/Templates/Header";
+import Header from "../../components/Templates/Header";
 import { RecipesContext } from "../../Providers/models/recipes/recipes";
 import {
     ContentPage, NameRecipe, Preparation, RatingStyle, StyleContainer,
@@ -10,7 +9,6 @@ import { AiOutlineArrowLeft } from "react-icons/ai";
 import { BsFillSaveFill } from "react-icons/bs";
 import { Rating } from "@mui/material";
 import { UserContext } from "../../Providers/models/user/user";
-import { useEffect } from "react";
 import { Api } from "../../services/api";
 import { toast } from "react-toastify";
 import { motion } from "framer-motion";
