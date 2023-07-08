@@ -1,31 +1,29 @@
-import { useState } from "react";
-import RecipeCard from "../../Templates/RecipeCard/index.jsx";
+import { useContext, useEffect, useState } from "react";
+import { UserContext } from "../../../Providers/models/user/user.jsx";
 import { Api } from "../../../services/api";
-import { useEffect } from "react";
-import { useContext } from "react";
-import { UserContext } from "../../../Providers/models/user/user";
+import RecipeCard from "../../Templates/RecipeCard/index.jsx";
+
 
 export const UserSavedRecipes = () => {
-  // const { user, setUser } = useContext(UserContext);
+    const [favorites, setFavorites] = useState(null)
+    const { decodedToken } = useContext(UserContext)
 
-  const [user, setUser] = useState(null);
 
-  useEffect(() => {
-    const username = sessionStorage.getItem("@Easy:Username");
-    Api.get(`/profile/${username}/`)
-      .then((response) => setUser(response.data))
-      .catch((err) => console.log(err));
-  }, []);
+    useEffect(() => {
+        Api.get(`/profile/${decodedToken.username}/`)
+            .then((response) => {
+                setFavorites(response.data.favorites)
+            })
+            .catch((err) => console.log(err));
+    }, []);
 
-  const  favorites  = user.favorites;
-
-  return (
-    <>
-      {favorites ? (
-        favorites?.map((recipe, index) => <RecipeCard key={index} recipe={recipe} />)
-      ) : (
-        <h1>Não há receitas salvas</h1>
-      )}
-    </>
-  );
+    return (
+        <>
+            {favorites ? (
+                favorites?.map((recipe, index) => <RecipeCard key={index} recipe={recipe} />)
+            ) : (
+                <h1>Não há receitas salvas</h1>
+            )}
+        </>
+    );
 };

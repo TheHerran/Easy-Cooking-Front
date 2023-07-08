@@ -8,7 +8,7 @@ export function RecipesProvider({ children }) {
     const [recipes, setRecipes] = useState(null);
     const [searchOn, setSearchOn] = useState(false);
     const [recipesTitles, setRecipesTitles] = useState();
-    const username = sessionStorage.getItem("@Easy:Username");
+    const [refresh, setRefresh] = useState(false)
 
     useEffect(() => {
         Api.get("/recipe/")
@@ -16,29 +16,17 @@ export function RecipesProvider({ children }) {
             .catch((err) => console.log(err));
     }, []);
 
-    async function RegisterRecipe({
-        title,
-        preparation,
-        img,
-        category,
-        ingredients,
-    }) {
-        const data = {
-            title,
-            preparation,
-            img,
-            category,
-            ingredients,
-        };
-        await Api.post("/recipe/", data, {
-            auth: BearerToken,
-        })
-            .then((res) => console.log(res))
-            .catch((err) => console.log(err));
-    }
+    useEffect(() => {
+        setTimeout(() => {
+            Api.get("/recipe/")
+                .then((res) => setRecipes(res.data))
+                .catch((err) => console.log(err));
+        }, 2000)
+    }, [refresh]);
+
 
     function searchRecipesTitle(data) {
-        const searchRecipes = recipes.filter((element) => {
+        const searchRecipes = recipes?.filter((element) => {
             if (
                 element.title
                     .normalize("NFD")
@@ -78,7 +66,7 @@ export function RecipesProvider({ children }) {
     }
 
     function ratingMax(user, recipe, rating) {
-        const data = { rating: rating, user: user.id, recipe: recipe.id, };
+        const data = { rating: rating };
 
         Api.post(`/rating/${recipe.id}/`, data, {
             headers: {
@@ -98,13 +86,14 @@ export function RecipesProvider({ children }) {
         <RecipesContext.Provider
             value={{
                 recipes,
-                RegisterRecipe,
                 setSearchOn,
                 searchOn,
                 searchRecipesTitle,
                 recipesTitles,
                 tagFilter,
                 ratingMax,
+                refresh,
+                setRefresh
             }}
         >
             {children}

@@ -16,6 +16,7 @@ const lightTheme = {
     title: "#ea1d2cff",
     ingItem: "#b1b1b1",
     error: "#ea1d2cff",
+    menuBgColor: "#E2E2E2",
 
     button: {
         textColor: "#ffffff",
@@ -39,6 +40,7 @@ const darkTheme = {
     title: "#cd131fff",
     ingItem: "#b1b1b160",
     error: "#ea1d2cff",
+    menuBgColor: "#333333",
 
     button: {
         textColor: "#ffffff",

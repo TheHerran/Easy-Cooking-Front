@@ -4,7 +4,7 @@ import LoginPage from "../pages/login";
 import RegisterPage from "../pages/register";
 import Home from "../pages/home";
 import DashBoard from "../pages/dashboard";
-import { Header } from "../components/Templates/Header";
+import Header from "../components/Templates/Header";
 import RecipePage from "../pages/recipePage";
 import { AnimatePresence } from "framer-motion";
 

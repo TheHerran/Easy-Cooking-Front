@@ -6,10 +6,7 @@ import { RecipesContext } from "../../Providers/models/recipes/recipes";
 import { motion } from "framer-motion";
 
 function Home() {
-  const { recipes } = useContext(RecipesContext);
-
-  const { searchOn } = useContext(RecipesContext);
-  const { recipesTitles } = useContext(RecipesContext);
+  const { recipes, searchOn, recipesTitles } = useContext(RecipesContext);
 
   return (
     <motion.div

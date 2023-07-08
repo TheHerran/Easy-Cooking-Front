@@ -1,16 +1,15 @@
-import { RecipeCardContainer, Span, StyledButton, StyleRating } from "./style";
+import { RecipeCardContainer, Span, StyleRating } from "./style";
 import { useNavigate } from "react-router-dom";
 import { Rating } from "@mui/material";
 import { useContext, useEffect, useState } from "react";
 
 import { Api, BearerToken } from "../../../services/api";
-import { UserContext } from "../../../Providers/models/user/user";
+import { RecipesContext } from "../../../Providers/models/recipes/recipes";
 
 function RecipeCard({ recipe, del, setMyRecipes, myRecipes }) {
     const navigate = useNavigate();
     const [rating, setRating] = useState(2);
-    const { user } = useContext(UserContext);
-
+    const { refresh, setRefresh } = useContext(RecipesContext);
 
     useEffect(() => {
         const value = recipe.rating?.reduce((prev, acc) => prev + acc.rating, 0);
@@ -30,7 +29,8 @@ function RecipeCard({ recipe, del, setMyRecipes, myRecipes }) {
         })
             .then((res) => {
                 const newList = myRecipes.filter((e) => e !== recipe);
-                setMyRecipes(newList);
+                setMyRecipes(newList)
+                setRefresh(!refresh)                
             })
             .catch((err) => console.log(err));
     };
@@ -56,11 +56,13 @@ function RecipeCard({ recipe, del, setMyRecipes, myRecipes }) {
                     Delete
                 </span>
             )}
-            <div>
-                <StyleRating>
-                    <Rating value={rating} size="small" readOnly />
-                </StyleRating>
-
+            <div className="ratingCatDiv">
+                <div className="userRatingDiv">
+                    <small>{recipe.username}</small>
+                    <StyleRating>
+                        <Rating value={rating} size="small" readOnly />
+                    </StyleRating>
+                </div>
                 <Span className="RecipeButton" lunch={recipe.category}>
                     {recipe.category}
                 </Span>

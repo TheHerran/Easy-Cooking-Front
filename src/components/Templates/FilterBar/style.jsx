@@ -77,6 +77,10 @@ export const FilterBarContainer = styled.div`
     border-radius: 8px;
 }
 
+.filterButtons button:hover{
+    filter: brightness(1.5)
+}
+
 #B0{
     border-radius: 35px;
     border: 2px solid ${props => props.theme.catFour};

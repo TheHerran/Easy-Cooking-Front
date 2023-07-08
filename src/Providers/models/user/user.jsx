@@ -1,5 +1,5 @@
-import { useEffect } from "react";
-import { createContext, useState } from "react";
+import jwt_decode from 'jwt-decode';
+import { createContext, useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import { Api, BearerToken } from "../../../services/api";
 
@@ -11,18 +11,22 @@ export function UserProvider({ children }) {
     const [register, setRegister] = useState(false);
     const [login, setLogin] = useState(false);
     const [verify, setVerify] = useState(false);
-    const [token, setToken] = useState(sessionStorage.getItem("@Easy:Token"));
-    const [username, setUsername] = useState(sessionStorage.getItem("@Easy:Username"));
+    const [token, setToken] = useState(localStorage.getItem("@Easy:Token") || null);
+    const decodedToken = jwt_decode(token)
+    const currentTime = Math.floor(Date.now() / 1000)
     
     useEffect(() => {
-        if (token) {
-            Api.get(`/profile/${username}/`, {
+        if (token && decodedToken.exp > currentTime) {
+            Api.get(`/profile/${decodedToken.user_id}/`, {
                 headers: {
                     Authorization: BearerToken,
                 },
             })
-                .then((res) => setUser(res.data))
-                .catch((err) => console.log(err));
+                .then((res) => {
+                    setVerify(true)
+                    setUser(res.data)
+                })
+                .catch((err) => err);
         }
     }, []);
 
@@ -57,8 +61,6 @@ export function UserProvider({ children }) {
 
     async function loginUser(username, password, callback) {
         const data = { username, password };
-        sessionStorage.setItem("@Easy:Username", username);
-        setUsername(username)
         
         toast
             .promise(Api.post("/login/", data), {
@@ -81,7 +83,7 @@ export function UserProvider({ children }) {
                 setVerify(true);
                 setToken(response.data.access);
                 
-                sessionStorage.setItem("@Easy:Token", response.data.access);
+                localStorage.setItem("@Easy:Token", response.data.access);
 
                 if (callback) {
                     callback(login);
@@ -93,8 +95,7 @@ export function UserProvider({ children }) {
     }
 
     function logoutUser(callback) {
-        sessionStorage.removeItem("@Easy:Token")
-        sessionStorage.removeItem("@Easy:Username")
+        localStorage.removeItem("@Easy:Token")
         setUser(null);
         setToken(null);
         callback("/login");
@@ -102,7 +103,7 @@ export function UserProvider({ children }) {
 
     function saveRecipe(data) {
         const fav = { favorites: data };
-        Api.patch(`/accounts/${username}`, fav, {
+        Api.patch(`/accounts/${decodedToken.user_id}`, fav, {
             headers: {
                 Authorization: BearerToken,
             },
@@ -124,6 +125,8 @@ export function UserProvider({ children }) {
         <UserContext.Provider
             value={{
                 user,
+                decodedToken,
+                token,
                 loginUser,
                 createUser,
                 logoutUser,

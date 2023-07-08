@@ -1,15 +1,15 @@
-import { Container } from "./style";
-import { UserRecipes } from "../../components/Templates/UserRecipes";
-import { useEffect, useState } from "react";
+import { motion } from "framer-motion";
+import { useContext, useEffect, useState } from "react";
+import { UserContext } from "../../Providers/models/user/user";
 import { AddRecipeModal } from "../../components/Templates/AddRecipeModal/index";
+import RecipeCard from "../../components/Templates/RecipeCard/index";
+import { UserRecipes } from "../../components/Templates/UserRecipes";
 import { UserSavedRecipes } from "../../components/Templates/UserSavedRecipes";
 import { Api, BearerToken } from "../../services/api";
-import RecipeCard from "../../components/Templates/RecipeCard/index";
-import { motion } from "framer-motion";
+import { Container } from "./style";
 
 function DashBoard() {
-    const username = sessionStorage.getItem("@Easy:Username");
-
+    const { decodedToken } = useContext(UserContext)
     const [myRecipes, setMyRecipes] = useState(null);
     const [open, setOpen] = useState(false);
     const [buttonfilter, setButtonfilter] = useState("userRecipes");
@@ -17,15 +17,15 @@ function DashBoard() {
     const [savedRecipes, setSavedRecipes] = useState(false);
 
     useEffect(() => {
-        Api.get(`/user/${username}/recipes/`)
-            .then((res) => setMyRecipes(res.data)) 
+        Api.get(`/user/${decodedToken.username}/recipes/`)
+            .then((res) => setMyRecipes(res.data))
             .catch((err) => console.log(err));
     }, [open]);
 
     const clickOnCard = (e) => setOpen(true);
 
     const handleSaved = () => {
-        Api.get(`/user/${username}/recipes/`, {
+        Api.get(`/user/${decodedToken.username}/recipes/`, {
             headers: {
                 Authorization: BearerToken,
             },
@@ -46,14 +46,20 @@ function DashBoard() {
                 <Container>
                     <div className="buttonsDiv">
                         <button
-                            onClick={() => setOnSaved(!onSaved)}
+                            onClick={() => {
+                                setButtonfilter("savedRecipes")
+                                setOnSaved(false)
+                            }}
                             className="button"
                         >
                             Minhas Receitas
                         </button>
 
                         <button
-                            onClick={() => handleSaved()}
+                            onClick={() => {
+                                setButtonfilter("userRecipes")
+                                setOnSaved(true)
+                            }}
                             className="button"
                         >
                             Receitas Salvas
@@ -68,7 +74,7 @@ function DashBoard() {
                             <UserSavedRecipes onClick={handleSaved} />
                         ) : null}
                         {!onSaved
-                            ? myRecipes?.map((e) => (
+                            ? myRecipes && myRecipes?.map((e) => (
                                 <RecipeCard
                                     key={e.id}
                                     recipe={e}
@@ -77,7 +83,7 @@ function DashBoard() {
                                     myRecipes={myRecipes}
                                 />
                             ))
-                            : savedRecipes?.map((e) => (
+                            : savedRecipes && savedRecipes?.map((e) => (
                                 <RecipeCard
                                     key={e.id}
                                     recipe={e}
