@@ -48,13 +48,19 @@ export const RecipeCardContainer = styled.div`
         margin: 0 auto;
     }
 
-    div {
+    .ratingCatDiv {
         display: flex;
         flex-direction: row;
-        align-items: center;
+        align-items: flex-end;
         justify-content: space-between;
         width: 100%;
         margin: 0 auto;
+
+        .userRatingDiv {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+        }
     }
 `;
 

@@ -22,5 +22,4 @@ export const StyledButton = styled.button`
   @media (max-width: 567px) {
     height: 45px;
   }
-  
 `;

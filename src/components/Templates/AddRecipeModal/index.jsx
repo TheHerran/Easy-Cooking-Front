@@ -7,21 +7,21 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import { Api, BearerToken } from "../../../services/api";
 import { toast } from "react-toastify";
-import { UserContext } from "../../../Providers/models/user/user";
 import ClearIcon from '@mui/icons-material/Clear';
+import { RecipesContext } from "../../../Providers/models/recipes/recipes";
 
 export const AddRecipeModal = ({ open, setOpen }) => {
-    const { user } = useContext(UserContext);
+    const { refresh, setRefresh } = useContext(RecipesContext);
     const [ingredientList, setIngredientList] = useState([]);
     const [addIngredientInput, setAddIngredientInput] = useState("");
-
+    
     const formSchema = yup.object().shape({
         title: yup.string().required("Digite um nome"),
         category: yup.string(),
         img: yup.string().required("Coloque uma imagem"),
         preparation: yup.string().required("Conte-nos o modo de preparo"),
     });
-
+    
     const { register, setValue, handleSubmit,
         formState: { errors } } = useForm({ resolver: yupResolver(formSchema) });
 
@@ -30,12 +30,12 @@ export const AddRecipeModal = ({ open, setOpen }) => {
         setAddIngredientInput("")
     }
 
-    const removeIngredient = (item) => {
-        setIngredientList(ingredientList.filter((index) => index !== item))
+    const removeIngredient = (ingredient) => {
+        return setIngredientList(ingredientList.filter((element) => element.item !== ingredient))
     }
 
     const onSubmitFunction = (data) => {
-        if (data.category === "Selecione") {
+        if (data.category === "Não Informado") {
             return toast.error("Por favor, selecione uma categoria!")
         }
         if (ingredientList.length === 0) {
@@ -57,6 +57,7 @@ export const AddRecipeModal = ({ open, setOpen }) => {
             .finally(() => {
                 setIngredientList([])
                 setOpen(!open)
+                setRefresh(!refresh)
                 setValue("title", "")
                 setValue("preparation", "")
                 setValue("category", "Não informado")
@@ -136,7 +137,8 @@ export const AddRecipeModal = ({ open, setOpen }) => {
                                         <span> {element.item} </span>
 
                                         <ClearIcon className="delItem"
-                                            onClick={(e) => e.preventDefault(removeIngredient(element.item))} />
+                                            onClick={(e) => removeIngredient(element.item)}
+                                        />
                                     </li>
                                 )))
                             }

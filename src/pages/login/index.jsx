@@ -1,5 +1,5 @@
 import { Form } from "../../components/Atoms/Form";
-import { Page, ObjSwitch, ObjFormControl } from "./style";
+import { Page } from "./style";
 import { GiCook } from "react-icons/gi";
 import { GiKnifeFork } from "react-icons/gi";
 import { TbCookieOff } from "react-icons/tb";
@@ -15,15 +15,14 @@ import loginImg from "../../assets/CookNew.png";
 import LogoV2Black from "../../assets/logoBlack-V2.svg";
 import LogoWhite from "../../assets/logoWhite-V2.svg";
 import { GlobalThemeContext } from "../../Providers/models/theme/theme";
-import Switch from "@mui/material/Switch";
-import { FormControlLabel } from "@mui/material";
 import { motion } from "framer-motion";
-import { useEffect } from "react"
+import { useEffect } from "react";
+import ThemeSwitch from "../../components/Atoms/ThemeSwitch";
 
 export default function LoginPage() {
     const [inputType, setInputType] = useState("password");
     const { loginUser, verify } = useContext(UserContext);
-    const { currentTheme, themeSwitch, getOpositeTheme } =
+    const { currentTheme } =
         useContext(GlobalThemeContext);
 
     const navigate = useNavigate();
@@ -134,20 +133,7 @@ export default function LoginPage() {
                 <figure className="figCook">
                     <img className="pic" src={loginImg} alt="Easy Cooking" />
                 </figure>
-
-                <FormControlLabel
-                    sx={ObjFormControl}
-                    value="end"
-                    control={
-                        <Switch
-                            sx={ObjSwitch}
-                            checked={themeSwitch}
-                            onChange={() => getOpositeTheme()}
-                        />
-                    }
-                    label="Tema"
-                    labelPlacement="start"
-                />
+                <ThemeSwitch />
             </Page>
         </motion.div>
     );
