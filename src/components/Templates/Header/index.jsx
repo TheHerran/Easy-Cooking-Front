@@ -11,7 +11,7 @@ import { HeaderContainer } from "./style";
 
 function Header() {
     const { currentTheme } = useContext(GlobalThemeContext);
-    const { isOpen, setIsOpen, decodedToken, verify } = useContext(UserContext);
+    const { isOpen, setIsOpen, verify } = useContext(UserContext);
     const navigate = useNavigate();
     const handleNavigate = () => navigate("/");
 
